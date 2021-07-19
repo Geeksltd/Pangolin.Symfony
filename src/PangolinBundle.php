@@ -12,9 +12,6 @@ class PangolinBundle extends Bundle
     public function load(array $configs, ContainerBuilder $container)
     {
 
-        $this->addAnnotatedClassesToCompiles([
-            "Geeks\Pangolin\Controller\ResetDatabaseController",
-        ]);
     }
 
 
