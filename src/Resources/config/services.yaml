@@ -1,0 +1,9 @@
+#
+services:
+  Geeks\Pangolin\Controller\ResetDatabaseController:
+    autowire: true      # Automatically injects dependencies in your services.
+    autoconfigure: true
+    public: true
+    calls:
+      - method: setContainer
+        arguments: [ '@service_container' ]

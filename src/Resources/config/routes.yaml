@@ -1,0 +1,4 @@
+pangolin:
+    path: /geeks/pangolin/reset
+    controller: Geeks\Pangolin\Controller\ResetDatabaseController::index
+

@@ -1,0 +1,25 @@
+{
+    "name": "geeksltd/pangolin.symfony",
+    "description": "api for pangolin",
+    "type": "symfony-bundle",
+    "authors": [
+        {
+            "name": "Vahid Mahdiun",
+            "email": "vahid.mahdiun@geeks.ltd.uk"
+        }
+    ],
+	"autoload": {
+		 "psr-4": {
+			"Geeks\\Pangolin\\": "src/" 
+		  }
+	},
+    "require": {
+      "php": ">=7.4",
+      "symfony/framework-bundle": "^5.2",
+      "doctrine/doctrine-migrations-bundle" : "^3.0",
+      "doctrine/orm": "^2.9"
+    },
+    "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4"
+    }
+}
