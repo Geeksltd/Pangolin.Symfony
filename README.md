@@ -17,7 +17,8 @@ pangolin_bundle:
     resource: '@PangolinBundle/Resources/config/routes.yaml'
 ```
 
-#Available apis 
+# Available apis 
+####----------------------------------------------------------------------
 ## 1 ) /geeks/pangolin/reset
 ### This api drops and recreates the current the database and runs all migrations and fixtures.
 Note : Make sure your database name contains "*.temp" at the end.Otherwise, you will get error.
