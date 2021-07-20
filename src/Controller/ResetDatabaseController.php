@@ -120,7 +120,8 @@ class ResetDatabaseController extends AbstractController
 
     protected function hasTempSuffix($dbName)
     {
-        return strpos($dbName, ".temp") ;
+        $suffix = ".temp";
+        return substr($dbName, -strlen($suffix)) === $suffix;
     }
 
 
