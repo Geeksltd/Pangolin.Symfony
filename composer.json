@@ -17,11 +17,11 @@
       "php": ">=7.4",
       "symfony/framework-bundle": "^5.2",
       "doctrine/doctrine-migrations-bundle" : "^3.1",
-      "doctrine/orm": "^2.9"
+      "doctrine/orm": "^2.9",
+      "doctrine/doctrine-fixtures-bundle": "^3.4"
     },
     "require-dev": {
-        "doctrine/doctrine-fixtures-bundle": "^3.4",
-        "symfony/maker-bundle": "^1.33"
+
     },
    "version": "1.3"
 }
