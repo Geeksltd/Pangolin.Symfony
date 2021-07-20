@@ -23,5 +23,5 @@
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "symfony/maker-bundle": "^1.33"
     },
-   "version": "1.0.0"
+   "version": "1.3"
 }
