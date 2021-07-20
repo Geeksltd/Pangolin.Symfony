@@ -1,6 +1,6 @@
 ## First,Install the package through composer 
 ```shell
-composer require geeksltd/pangolin.symfony --dev
+composer require geeksltd/pangolin.symfony "dev-master" --dev
 ```
 
 ## Enable pangolin bundle in your config/bundles.php file
