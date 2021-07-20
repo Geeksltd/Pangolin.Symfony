@@ -1,3 +1,8 @@
+## First,Install the package through composer 
+```shell
+composer require geeksltd/pangolin.symfony --dev
+```
+
 ## Enable pangolin bundle in your config/bundles.php file
 
 ### Simply add this PangolinBundle class to the array as bellow.Pangolin bundle only is available on dev and test environment.
@@ -18,7 +23,7 @@ pangolin_bundle:
 ```
 
 # Available apis 
-####----------------------------------------------------------------------
+
 ## 1 ) /geeks/pangolin/reset
 ### This api drops and recreates the current the database and runs all migrations and fixtures.
 Note : Make sure your database name contains "*.temp" at the end.Otherwise, you will get error.

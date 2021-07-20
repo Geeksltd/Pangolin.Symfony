@@ -21,5 +21,6 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4"
-    }
+    },
+   "version": "1.0.0"
 }
