@@ -1,4 +1,7 @@
-pangolin:
+pangolin_reset_database:
     path:  /cmd/db-restart
     controller: Geeks\Pangolin\Controller\ResetDatabaseController::index
 
+pangolin_logs:
+    path:  /cmd/logs
+    controller: Geeks\Pangolin\Controller\LogController::index
