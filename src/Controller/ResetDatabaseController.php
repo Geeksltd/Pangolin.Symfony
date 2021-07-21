@@ -34,7 +34,7 @@ class ResetDatabaseController extends AbstractController
 
 
     /**
-     * @Route("/geeks/pangolin/reset", name="pangolin_reset_database")
+     * @Route("/cmd/db-restart", name="pangolin_reset_database")
      */
     public function index(KernelInterface $kernel): Response
     {
