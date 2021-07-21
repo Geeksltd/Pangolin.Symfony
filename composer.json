@@ -18,10 +18,8 @@
       "symfony/framework-bundle": "^5.2",
       "doctrine/doctrine-migrations-bundle" : "^3.1",
       "doctrine/orm": "^2.9",
-      "doctrine/doctrine-fixtures-bundle": "^3.4"
+      "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "symfony/cache": "^5.3"
     },
-    "require-dev": {
-
-    },
-   "version": "1.6"
+    "version": "1.7"
 }
