@@ -3,5 +3,6 @@ pangolin_reset_database:
     controller: Geeks\Pangolin\Controller\ResetDatabaseController::index
 
 pangolin_logs:
-    path:  /cmd/logs
+    path: /cmd/get-db-changes
+
     controller: Geeks\Pangolin\Controller\LogController::index

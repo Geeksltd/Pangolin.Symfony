@@ -11,7 +11,7 @@ class LogController extends AbstractController
 {
 
     /**
-     * @Route("/cmd/logs", name="pangolin_logs")
+     * @Route("cmd/get-db-changes", name="pangolin_logs")
      */
     public function index(KernelInterface $kernel): Response
     {
