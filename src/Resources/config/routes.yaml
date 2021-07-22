@@ -4,5 +4,9 @@ pangolin_reset_database:
 
 pangolin_logs:
     path: /cmd/get-db-changes
-
     controller: Geeks\Pangolin\Controller\LogController::index
+
+pangolin_sql_execution:
+    path: /cmd/db-run-changes
+    controller: Geeks\Pangolin\Controller\LogController::index
+    methods: POST
