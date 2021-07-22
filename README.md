@@ -28,4 +28,6 @@ pangolin_bundle:
 ### This api drops and recreates the current the database and runs all migrations and fixtures.
 Note : Make sure your database name contains "*.temp" at the end.Otherwise, you will get error.
 
-#### http://yourprojectaddress.com/cmd/db-restart
+
+## 2 ) /cmd/get-db-changes
+### Get the latest executed sql queries. all the queries will be wiped out once the api is called 
