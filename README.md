@@ -28,6 +28,39 @@ pangolin_bundle:
 ### This api drops and recreates the current the database and runs all migrations and fixtures.
 Note : Make sure your database name contains "*.temp" at the end.Otherwise, you will get error.
 
+Response Examples :
+```json
+{
+  "message": "All operations successfully completed",
+  "status": true
+}
+```
+Or
+```json
+{
+  "message": "Database name does not contain .temp suffix",
+  "status": false
+}
+```
+
 
 ## 2 ) /cmd/get-db-changes
 ### Get the latest executed sql queries. all the queries will be wiped out once the api is called 
+Response Examples :
+```json
+{
+  "data": [
+    {
+      "log": "INSERT INTO product (title, code, type) VALUES ('product_name', 'code1', 'car')"
+    },
+    {
+      "log": "INSERT INTO user (title) VALUES ('ranger')"
+    }
+  ]
+}
+```
+Or
+```json
+{
+  "data": null
+}
