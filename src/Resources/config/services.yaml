@@ -21,18 +21,10 @@ services:
       - method: setContainer
         arguments: [ '@service_container' ]
 
-#  Geeks\Pangolin\Bundle:
-#    arguments: ['@doctrine.orm.entity_manager']
-
-#  Geeks\Pangolin\Event\LogEvent:
-#    tags:
-#      - name: 'doctrine.event_listener'
-#        # this is the only required option for the lifecycle listener tag
-#        event: 'postUpdate'
-#
-#        # listeners can define their priority in case multiple subscribers or listeners are associated
-#        # to the same event (default priority = 0; higher numbers = listener is run earlier)
-#        priority: 500
-#
-#        # you can also restrict listeners to a specific Doctrine connection
-#        connection: 'default'
+  Geeks\Pangolin\Controller\SqlExecutionController:
+    autowire: true      # Automatically injects dependencies in your services.
+    autoconfigure: true
+    public: true
+    calls:
+      - method: setContainer
+        arguments: [ '@service_container' ]

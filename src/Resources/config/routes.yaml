@@ -8,5 +8,5 @@ pangolin_logs:
 
 pangolin_sql_execution:
     path: /cmd/db-run-changes
-    controller: Geeks\Pangolin\Controller\LogController::index
+    controller: Geeks\Pangolin\Controller\SqlExecutionController::index
     methods: POST
