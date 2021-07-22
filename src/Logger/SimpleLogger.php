@@ -34,8 +34,14 @@ class SimpleLogger implements SQLLogger
                     $value = $type->convertToDatabaseValue($param, $platform);
                     $sql = join(var_export($value, true), explode('?', $sql, 2));
                 }
+                $arrayLog = [];
                 $logItem = $this->cache->getItem('all_cached_logs');
-                $newValue = $logItem->get(). "\n". $sql;
+                $currentValue = $logItem->get();
+                if($currentValue){
+                    $arrayLog = json_decode($currentValue);
+                }
+                array_push($arrayLog, $sql);
+                $newValue =  json_encode($arrayLog);
                 $logItem->set($newValue);
                 $this->cache->save($logItem);
             }

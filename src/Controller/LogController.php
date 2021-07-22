@@ -16,13 +16,26 @@ class LogController extends AbstractController
     public function index(KernelInterface $kernel): Response
     {
         $cache = new FilesystemAdapter();
-        $logs = $cache->get('all_cached_logs', function ($item){
-            return $item->get();
-        });
+        $logItem = $cache->getItem('all_cached_logs');
+        $currentValue = $logItem->get();
+        $newArray = null;
+        if($currentValue){
+            $arrayLog = json_decode($currentValue, true);
+            if ($arrayLog && is_array($arrayLog) && count($arrayLog)){
+                foreach ($arrayLog as $log){
+                    $newArray[]['log'] = $log;
+                }
+            }
+        }
         $cache->delete("all_cached_logs");
+        return $this->createJson($newArray);
+    }
+
+
+    protected function createJson($data)
+    {
         return $this->json([
-            'message' => $logs,
-            'status' => true
+            'data' => $data,
         ]);
     }
 
