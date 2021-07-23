@@ -16,16 +16,24 @@ class SimpleLogger implements SQLLogger
     ];
     protected $em;
     protected $cache;
+    protected $currentPath="";
+    protected $routeBlacklist = [
+        '/cmd/db-restart'
+    ];
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, $container)
     {
         $this->em = $em;
         $this->cache = new FilesystemAdapter();
+        $masterRequest = ($container->get("request_stack")->getMasterRequest());
+        $this->currentPath  = $masterRequest->getRequestUri();
     }
 
 
     public function startQuery($sql, array $params = null, array $types = null)
     {
+        if(in_array($this->currentPath, $this->routeBlacklist)) return false;
+
         $platform = $this->em->getConnection()->getDatabasePlatform();
         if ($this->isLoggable($sql, $this->types, true)) {
             if (!empty($params)) {
@@ -60,6 +68,8 @@ class SimpleLogger implements SQLLogger
 
     public function stopQuery()
     {
+
+
     }
 
 

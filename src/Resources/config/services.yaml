@@ -3,7 +3,7 @@ services:
 
   doctrine.dbal.logger:
     class: Geeks\Pangolin\Logger\SimpleLogger
-    arguments: ['@doctrine.orm.entity_manager']
+    arguments: ['@doctrine.orm.entity_manager', '@service_container']
 
   Geeks\Pangolin\Controller\ResetDatabaseController:
     autowire: true      # Automatically injects dependencies in your services.
