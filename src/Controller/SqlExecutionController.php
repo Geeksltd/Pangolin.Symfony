@@ -29,6 +29,10 @@ class SqlExecutionController extends AbstractController
         foreach ($queries as $sql){
             $this->executeSqlQuery($sql->log);
         }
+        return $this->json([
+            'message' => 'All queries have been executed successfully',
+            'status' => true
+        ]);
 
     }
 
