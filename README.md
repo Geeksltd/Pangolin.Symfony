@@ -64,3 +64,15 @@ Or
 {
   "data": null
 }
+```
+
+
+## 3 ) /cmd/db-run-changes
+### This api expects a xml request and runs all the queries from DataBaseCommand attribute
+Response Examples :
+```json
+{
+"message": "All queries have been executed successfully",
+"status": true
+}
+```
