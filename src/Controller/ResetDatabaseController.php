@@ -9,8 +9,12 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-class ResetDatabaseController extends AbstractController
+final class ResetDatabaseController extends AbstractController
 {
+    public function __invoke(KernelInterface $kernel)
+    {
+        return $this->index($kernel);
+    }
 
     protected $dropCommand = [
         'command' => 'doctrine:database:drop',
@@ -33,10 +37,8 @@ class ResetDatabaseController extends AbstractController
     protected $lastResponse = [];
 
 
-    /**
-     * @Route("/cmd/db-restart", name="pangolin_reset_database")
-     */
-    public function index(KernelInterface $kernel): Response
+
+    protected function index(KernelInterface $kernel): Response
     {
 
         $databaseName = $this->getDoctrine()->getConnection()->getDatabase();

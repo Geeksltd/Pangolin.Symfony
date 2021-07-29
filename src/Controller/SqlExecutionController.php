@@ -3,15 +3,18 @@
 namespace Geeks\Pangolin\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class SqlExecutionController extends AbstractController
 {
+    public function __invoke(Request $request)
+    {
+        return $this->index($request);
+    }
 
-    /**
-     * @Route("/cmd/db-run-changes", name="pangolin_sql_execution")
-     */
-    public function index(): Response
+
+    protected function index($request): Response
     {
 
 
