@@ -1,9 +1,9 @@
 #
 services:
 
-  doctrine.dbal.logger:
-    class: Geeks\Pangolin\Logger\SimpleLogger
-    arguments: ['@doctrine.orm.entity_manager', '@service_container']
+#  doctrine.dbal.logger:
+#    class: Geeks\Pangolin\Logger\SimpleLogger
+#    arguments: ['@doctrine.orm.entity_manager', '@service_container']
 
   Geeks\Pangolin\Controller\ResetDatabaseController:
     autowire: true      # Automatically injects dependencies in your services.
@@ -28,3 +28,22 @@ services:
     calls:
       - method: setContainer
         arguments: [ '@service_container' ]
+
+  Geeks\Pangolin\EventListener\DatabaseActivitySubscriber:
+    arguments:
+      $serializer: '@serializer'
+      $logger: '@doctrine.dbal.logger.profiling.default'
+    tags:
+      - { name: 'doctrine.event_subscriber' }
+
+  Geeks\Pangolin\EventListener\ClearLogs:
+    arguments: ['@doctrine.orm.entity_manager']
+    tags:
+      - { name: 'api_platform.event_subscriber' }
+
+  Geeks\Pangolin\Repository\LogRepository:
+    arguments:
+      $registry: '@doctrine'
+    tags:
+      - { name: 'doctrine.repository_service' }
+
