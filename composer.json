@@ -38,5 +38,5 @@
         "symfony/validator": "^5.2",
         "symfony/uid": "^5.2"
     },
-    "version": "1.10"
+    "version": "1.11"
 }
