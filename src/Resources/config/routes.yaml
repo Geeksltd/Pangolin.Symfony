@@ -1,12 +1,4 @@
-pangolin_reset_database:
-    path:  /cmd/db-restart
-    controller: Geeks\Pangolin\Controller\ResetDatabaseController::index
-
-pangolin_logs:
-    path: /cmd/get-db-changes
-    controller: Geeks\Pangolin\Controller\LogController::index
-
-pangolin_sql_execution:
-    path: /cmd/db-run-changes
-    controller: Geeks\Pangolin\Controller\SqlExecutionController::index
-    methods: POST
+api_platform:
+  resource: .
+  type: api_platform
+  prefix: /cmd
