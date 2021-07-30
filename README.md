@@ -1,6 +1,7 @@
-## Make sure to install annotation first
+## Make sure to install these packages first
 ```shell
-composer req annotation
+composer req annotation api
+
 ```
 
 
