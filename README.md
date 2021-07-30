@@ -1,6 +1,6 @@
-## Make sure to install symfony/annotation first
+## Make sure to install annotation first
 ```shell
-composer require geeksltd/annotation
+composer req annotation
 ```
 
 
