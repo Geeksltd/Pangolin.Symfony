@@ -19,7 +19,6 @@
       "doctrine/doctrine-migrations-bundle" : "^3.1",
       "doctrine/orm": "^2.9",
       "doctrine/doctrine-fixtures-bundle": "^3.4",
-        "symfony/cache": "^5.3",
         "symfony/flex": "^1.13",
         "api-platform/core": "^2.6",
         "nelmio/cors-bundle": "^2.1",
