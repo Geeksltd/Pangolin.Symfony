@@ -1,6 +1,12 @@
+## Make sure to install symfony/annotation first
+```shell
+composer require geeksltd/annotation
+```
+
+
 ## First,Install the package through composer 
 ```shell
-composer require geeksltd/pangolin.symfony "dev-master" --dev
+composer require geeksltd/pangolin.symfony --dev
 ```
 
 ## Enable pangolin bundle in your config/bundles.php file
