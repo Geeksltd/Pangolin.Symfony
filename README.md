@@ -29,6 +29,14 @@ pangolin_bundle:
     resource: '@PangolinBundle/Resources/config/routes.yaml'
 ```
 
+
+### Enable Debug menu in your symfony application
+
+```code
+ {% include '@Pangolin/debug.html.twig' %}
+```
+
+
 # Available apis 
 
 ## 1 ) /cmd/db-restart
