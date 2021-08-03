@@ -91,3 +91,8 @@ Response Examples :
 "status": true
 }
 ```
+
+## 3 ) /cmd/outlook
+### This route displays a list of available mails in the database based on interface implemented by an entity 
+
+
