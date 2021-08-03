@@ -14,7 +14,6 @@ class OutlookController extends AbstractController
    public function index()
    {
 
-
        $em = $this->getDoctrine()->getManager();
        $entities = $em->getConfiguration()->getMetadataDriverImpl()->getAllClassNames();
 
@@ -26,15 +25,15 @@ class OutlookController extends AbstractController
        }
 
        if(!empty($implementsIModule)){
-
            $entity = $implementsIModule[0];
-           $object = new $entity();
+           $metadata = $em->getClassMetadata($entity);
+           $fields = $metadata->getFieldNames();
            $records = $em->getRepository($entity)->findAll();
-
-           return $this->json([
-              "data" => $records
+           
+           return $this->render("@Pangolin/outlook/index.html.twig", [
+               'records' => $records,
+               'fields'  => $fields
            ]);
-
        }
        else {
            return $this->json([
