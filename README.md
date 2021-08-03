@@ -33,7 +33,7 @@ pangolin_bundle:
 ### Enable Debug menu in your symfony application
 
 ```code
- {% include '@Pangolin/debug.html.twig' %}
+ {% include '@Pangolin/debug/debug.html.twig' %}
 ```
 
 
