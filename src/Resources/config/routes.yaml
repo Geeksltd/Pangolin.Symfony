@@ -2,3 +2,7 @@ api_platform:
   resource: .
   type: api_platform
   prefix: /cmd
+
+pangolin_outlook:
+  path: /cmd/outlook
+  controller: Geeks\Pangolin\Controller\OutlookController::index
