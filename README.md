@@ -92,7 +92,11 @@ Response Examples :
 }
 ```
 
-## 3 ) /cmd/outlook
+## 4 ) /cmd/outlook
 ### This route displays a list of available mails in the database based on interface implemented by an entity 
+
+
+
+# -----------------------------------------------------------
 
 
