@@ -13,7 +13,7 @@ services:
       - method: setContainer
         arguments: [ '@service_container' ]
 
-  Geeks\Pangolin\Controller\OutlookController:
+  Geeks\Pangolin\Controller\OutboxController:
     autowire: true      # Automatically injects dependencies in your services.
     autoconfigure: true
     public: true

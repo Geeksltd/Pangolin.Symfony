@@ -32,7 +32,7 @@ use Geeks\Pangolin\Controller\SqlExecutionController;
  *             "openapi_context"={
  *                 "requestBody"={
  *                     "content"={
- *                         "application/xml"={
+ *                         "application/json"={
  *                             "schema"={
  *
  *                             }

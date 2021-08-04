@@ -4,5 +4,5 @@ api_platform:
   prefix: /cmd
 
 pangolin_outlook:
-  path: /cmd/outlook
-  controller: Geeks\Pangolin\Controller\OutlookController::index
+  path: /cmd/outbox
+  controller: Geeks\Pangolin\Controller\OutboxController::index

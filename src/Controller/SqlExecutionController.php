@@ -20,15 +20,16 @@ class SqlExecutionController extends AbstractController
 
         $postData = file_get_contents('php://input');
 
-        $xml = simplexml_load_string($postData);
-
-        $value = $xml->attributes()->DataBaseCommand[0];
-
-        $string = $value->__toString();
-        $decodedString = json_decode($string);
+        $decodedString = json_decode($postData);
         
         $queries = $decodedString->data;
 
+        if(!isset($queries) or empty($queries)){
+            return $this->json([
+                'message' => "You have provided an empty data array in your request",
+                'status' => false
+            ],401);
+        }
         foreach ($queries as $sql){
             $this->executeSqlQuery($sql->log);
         }

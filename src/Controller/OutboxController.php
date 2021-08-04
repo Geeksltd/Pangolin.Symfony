@@ -7,7 +7,7 @@ namespace Geeks\Pangolin\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-class OutlookController extends AbstractController
+class OutboxController extends AbstractController
 {
 
     
@@ -30,7 +30,7 @@ class OutlookController extends AbstractController
            $fields = $metadata->getFieldNames();
            $records = $em->getRepository($entity)->findAll();
            
-           return $this->render("@Pangolin/outlook/index.html.twig", [
+           return $this->render("@Pangolin/outbox/index.html.twig", [
                'records' => $records,
                'fields'  => $fields
            ]);

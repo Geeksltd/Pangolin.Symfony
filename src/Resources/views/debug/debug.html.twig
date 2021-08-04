@@ -1,37 +1,35 @@
-<style>
+<div class="webtest-commands" style="position: fixed; left: 45%; bottom: 0px; text-align: center; width: 200px; margin-bottom: -180px; transition: margin-bottom 0.25s ease 0s; background: rgb(46, 168, 235); color: rgb(255, 255, 255); font-size: 12px; font-family: Arial;"
+     onmouseover="this.style.marginBottom=&quot;0&quot;" onmouseout="this.style.marginBottom=&quot;-180px&quot;">
+    <div style="width: 100%; background-color:#1b648d; padding: 3px 0;font-size: 13px; font-weight: 700;">Commands...</div>
 
-    .navbar {
-        overflow: hidden;
-        background-color: #333;
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-    }
-
-    .navbar a {
-        float: left;
-        display: block;
-        color: #f2f2f2;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-        font-size: 17px;
-    }
-
-    .navbar a:hover {
-        background: #f1f1f1;
-        color: black;
-    }
-
-    .navbar a.active {
-        background-color: #04AA6D;
-        color: white;
-    }
-
-
-</style>
-
-<div class="navbar">
-    <a href="/" class="active">Main Page</a>
-    <a href="/cmd/db-restart"> Reset Database</a>
+    <div style="width: 100%; height:30px; box-sizing:border-box; padding: 4px 0;">
+        <a href="/cmd/db-restart" style="color: #fff;">
+            Restart DB...
+        </a>
+    </div>
+    <div style="width: 100%; height:30px; box-sizing:border-box; padding: 4px 0;">
+        <a href="/cmd/outbox" style="color: #fff;">
+            Outbox...
+        </a>
+    </div>
+    <div style="width: 100%; height:30px; box-sizing:border-box; padding: 4px 0;">
+        <a href="/cmd/get-db-changes" style="color: #fff;">
+            Get DB changes
+        </a>
+    </div>
+    <div style="width: 100%; height:30px; box-sizing:border-box; padding: 4px 0;">
+        <a href="/cmd/db-profile-start" style="color: #fff;">
+            SQL Profiling: Start
+        </a>
+    </div>
+    <div style="width: 100%; height:30px; box-sizing:border-box; padding: 4px 0;">
+        <a href="/cmd/db-profile-snapshot" style="color: #fff;">
+            SQL Profiling: Take snapshot
+        </a>
+    </div>
+    <div style="width: 100%; height:30px; box-sizing:border-box; padding: 4px 0;">
+        <a href="/cmd/db-profile-stop" style="color: #fff;">
+            SQL Profiling: Stop
+        </a>
+    </div>
 </div>
