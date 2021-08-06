@@ -83,7 +83,7 @@ Or
 
 
 ## 3 ) /cmd/db-run-changes
-### This api expects a xml request and runs all the queries from DataBaseCommand attribute
+### This api expects the previous json response above as a json request and runs all the queries. Make sure to add Content-Type : application/json in your header.
 Response Examples :
 ```json
 {
