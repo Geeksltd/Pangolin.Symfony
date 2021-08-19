@@ -38,5 +38,5 @@
         "symfony/uid": "^5.2",
         "symfony/cache": "^5.2"
     },
-    "version": "1.18"
+    "version": "1.20"
 }
