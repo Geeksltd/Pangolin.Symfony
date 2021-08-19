@@ -9,6 +9,7 @@ use Geeks\Pangolin\Controller\LogController;
 use Geeks\Pangolin\Controller\ResetDatabaseController;
 use Geeks\Pangolin\Dto\LogInput;
 use Geeks\Pangolin\Controller\SqlExecutionController;
+use Geeks\Pangolin\Controller\LocaltimeController;
 
 /**
  * @ApiResource(
@@ -19,6 +20,32 @@ use Geeks\Pangolin\Controller\SqlExecutionController;
  *            "method"="GET",
  *            "path"="/get-db-changes",
  *            "controller"=LogController::class,
+ *          },
+ *          "time_update"= {
+ *            "method"="GET",
+ *            "path"="/time-update",
+ *            "controller"=LocaltimeController::class,
+ *            "openapi_context" = {
+ *                  "parameters" = {
+ *                      {
+ *                          "name" = "date",
+ *                          "in" = "query",
+ *                          "required" : true,
+ *                          "description" = "",
+ *                          "schema" = {
+ *                              "type" = "string"
+ *                          }
+ *                      },
+ *                      {
+ *                          "name" = "time",
+ *                          "in" = "query",
+ *                          "description" = "",
+ *                          "schema" = {
+ *                              "type" = "string"
+ *                          }
+ *                      }
+ *                  }
+ *               }
  *          },
  *          "get_db_reset"= {
  *            "method"="GET",
