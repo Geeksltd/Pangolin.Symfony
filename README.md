@@ -35,7 +35,7 @@ pangolin_bundle:
 ```code
  {% include '@Pangolin/debug/debug.html.twig' %}
 ```
-
+# -----------------------------------------------------------
 
 # Available apis 
 
@@ -57,7 +57,7 @@ Or
   "status": false
 }
 ```
-
+# -----------------------------------------------------------
 
 ## 2 )GET /cmd/get-db-changes
 ### Get the latest executed sql queries. all the queries will be wiped out once the api is called 
@@ -80,7 +80,7 @@ Or
   "data": null
 }
 ```
-
+# -----------------------------------------------------------
 
 ## 3 )POST /cmd/db-run-changes
 ### This api expects the previous json response above as a json request and runs all the queries. Make sure to add Content-Type : application/json in your header.
@@ -91,12 +91,12 @@ Response Examples :
 "status": true
 }
 ```
-
+# -----------------------------------------------------------
 ## 4 )GET /cmd/outbox
 ### This route displays a list of available mails in the database based on interface implemented by an entity 
+# -----------------------------------------------------------
 
-
-## 3 )GET /cmd/time-update?date=2/2/2021&time=20:20:20
+## 5 )GET /cmd/time-update?date=2/2/2021&time=20:20:20
 ### This api expects a get request 
 Response Examples :
 ```json
