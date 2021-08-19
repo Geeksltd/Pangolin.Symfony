@@ -39,7 +39,7 @@ pangolin_bundle:
 
 # Available apis 
 
-## 1 ) /cmd/db-restart
+## 1 )GET /cmd/db-restart
 ### This api drops and recreates the current the database and runs all migrations and fixtures.
 Note : Make sure your database name contains "*.temp" at the end.Otherwise, you will get error.
 
@@ -59,7 +59,7 @@ Or
 ```
 
 
-## 2 ) /cmd/get-db-changes
+## 2 )GET /cmd/get-db-changes
 ### Get the latest executed sql queries. all the queries will be wiped out once the api is called 
 Response Examples :
 ```json
@@ -82,7 +82,7 @@ Or
 ```
 
 
-## 3 ) /cmd/db-run-changes
+## 3 )POST /cmd/db-run-changes
 ### This api expects the previous json response above as a json request and runs all the queries. Make sure to add Content-Type : application/json in your header.
 Response Examples :
 ```json
@@ -92,10 +92,20 @@ Response Examples :
 }
 ```
 
-## 4 ) /cmd/outbox
+## 4 )GET /cmd/outbox
 ### This route displays a list of available mails in the database based on interface implemented by an entity 
 
 
+## 3 )GET /cmd/time-update?date=2/2/2021&time=20:20:20
+### This api expects a get request 
+Response Examples :
+```json
+{
+  "message": "Local time has been updated.",
+  "status": true,
+  "data": "2/2/2021 20:20:20"
+}
+```
 
 # -----------------------------------------------------------
 
