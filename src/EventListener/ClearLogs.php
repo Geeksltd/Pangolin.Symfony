@@ -21,7 +21,6 @@ class ClearLogs implements EventSubscriberInterface
 
     public function __construct(EntityManagerInterface $manager)
     {
-        dump($manager);
         $this->manager = $manager;
     }
 
@@ -46,7 +45,6 @@ class ClearLogs implements EventSubscriberInterface
                     $logs = $this->manager->getRepository(Log::class)->findAll();
 
                     foreach ($logs as $log) {
-                        dump($log);
                         $this->manager->remove($log);
                     }
 
