@@ -38,28 +38,7 @@ class LogInput
 
     private $cookies;
 
-    private $test;
 
-    public function __construct()
-    {
-        $this->test = new Test();
-    }
-
-    /**
-     * @return Test
-     */
-    public function getTest(): Test
-    {
-        return $this->test;
-    }
-
-    /**
-     * @param Test $test
-     */
-    public function setTest(Test $test): void
-    {
-        $this->test = $test;
-    }
 
     /**
      * @return mixed
