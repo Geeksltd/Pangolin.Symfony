@@ -2,29 +2,46 @@
 
 namespace Geeks\Pangolin\Lib;
 
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+//use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Cache\Adapter\ApcuAdapter;
 
-class LocaltimeHelper 
+
+class LocaltimeHelper
 {
 
 
+    /**
+     * @throws \Symfony\Component\Cache\Exception\CacheException
+     */
+    private static function getCacheObject()
+    {
+       return new ApcuAdapter();
+    }
+
+    /**
+     * @throws \Symfony\Component\Cache\Exception\CacheException
+     */
     public static function getLocaltime()
     {
-        $cache = new FilesystemAdapter();
+        $cache = self::getCacheObject();
+
         $localtime = $cache->getItem('default_local_time');
 
-        if($localtime->get()){
+        if ($localtime->get()) {
             return $localtime->get();
-        }
-        else {
+        } else {
             return date("Y/m/d H:i:s");
         }
 
     }
 
+    /**
+     * @throws \Symfony\Component\Cache\Exception\CacheException
+     */
     public static function updateLocaltime(string $date)
     {
-        $cache = new FilesystemAdapter();
+        $cache = self::getCacheObject();
+
         $localtime = $cache->getItem('default_local_time');
         $localtime->set($date);
         $cache->save($localtime);
@@ -32,9 +49,14 @@ class LocaltimeHelper
     }
 
 
+    /**
+     * @return bool
+     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \Symfony\Component\Cache\Exception\CacheException
+     */
     public static function resetLocaltime()
     {
-        $cache = new FilesystemAdapter();
+        $cache = self::getCacheObject();
         return $cache->delete('default_local_time');
     }
 }

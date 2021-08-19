@@ -1,3 +1,6 @@
+## First you need to install apcu php extension
+[Tutorial on how to install apcu on windows machine](https://stackoverflow.com/questions/24448261/how-to-install-apcu-in-windows)
+
 ## Make sure to install these packages first
 ```shell
 composer req annotation api
@@ -5,7 +8,7 @@ composer req annotation api
 ```
 
 
-## First,Install the package through composer 
+## Install the package through composer 
 ```shell
 composer require geeksltd/pangolin.symfony --dev
 ```
