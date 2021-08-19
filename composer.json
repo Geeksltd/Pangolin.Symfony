@@ -35,7 +35,8 @@
         "symfony/serializer": "^5.2",
         "symfony/twig-bundle": "^5.2",
         "symfony/validator": "^5.2",
-        "symfony/uid": "^5.2"
+        "symfony/uid": "^5.2",
+        "symfony/cache": "^5.2"
     },
     "version": "1.17"
 }
