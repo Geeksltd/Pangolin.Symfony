@@ -23,7 +23,7 @@ use Geeks\Pangolin\Controller\LocaltimeController;
  *          },
  *          "time_update"= {
  *            "method"="GET",
- *            "path"="/time-update",
+ *            "path"="/local-date",
  *            "controller"=LocaltimeController::class,
  *            "openapi_context" = {
  *                  "parameters" = {
