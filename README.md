@@ -99,7 +99,7 @@ Response Examples :
 ### This route displays a list of available mails in the database based on interface implemented by an entity 
 # -----------------------------------------------------------
 
-## 5 )GET /cmd/time-update?date=2/2/2021&time=20:20:20
+## 5 )GET /cmd/local-date?date=2/2/2021&time=20:20:20
 ### This api expects a get request 
 Response Examples :
 ```json

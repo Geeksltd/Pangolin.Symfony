@@ -21,24 +21,33 @@ class LocaltimeHelper
     /**
      * @throws \Symfony\Component\Cache\Exception\CacheException
      */
-    public static function getLocaltime()
+    public static function getLocalDateTime()
     {
         $cache = self::getCacheObject();
 
-        $localtime = $cache->getItem('default_local_time');
+        $localTime = $cache->getItem('default_local_time')->get();
+        $localDate = $cache->getItem('default_local_date')->get();
 
-        if ($localtime->get()) {
-            return $localtime->get();
+        if ($localTime || $localDate) {
+            return self::generateDateTimeString($localDate, $localTime);
         } else {
-            return date("Y/m/d H:i:s");
+            return date("d/m/Y H:i:s");
         }
 
+    }
+
+    private static function generateDateTimeString($date=null, $time=null)
+    {
+        if($date && $time) return $date . ' ' . $time;
+        if($date && !$time) return  $date . date(" H:i:s");
+
+        else return  date("d/m/Y ")  . $time;
     }
 
     /**
      * @throws \Symfony\Component\Cache\Exception\CacheException
      */
-    public static function updateLocaltime(string $date)
+    public static function updateLocalTime(string $date)
     {
         $cache = self::getCacheObject();
 
@@ -48,15 +57,28 @@ class LocaltimeHelper
         return $localtime->get();
     }
 
+    /**
+     * @throws \Symfony\Component\Cache\Exception\CacheException
+     */
+    public static function updateLocalDate(string $date)
+    {
+        $cache = self::getCacheObject();
+
+        $localtime = $cache->getItem('default_local_date');
+        $localtime->set($date);
+        $cache->save($localtime);
+        return $localtime->get();
+    }
 
     /**
      * @return bool
      * @throws \Psr\Cache\InvalidArgumentException
      * @throws \Symfony\Component\Cache\Exception\CacheException
      */
-    public static function resetLocaltime()
+    public static function resetLocalDateTime()
     {
         $cache = self::getCacheObject();
-        return $cache->delete('default_local_time');
+        return $cache->delete('default_local_time') && $cache->delete('default_local_date');
+
     }
 }

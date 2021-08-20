@@ -17,19 +17,18 @@ class LocaltimeController extends AbstractController
         $date = $request->query->get('date');
         $time = $request->query->get('time');
 
-        if(!isset($date)){
-            return $this->json([
-                'message' => 'Date parameter needs to be defined.',
-                'status' => false,
-            ],400);
+        if($date){
+           LocaltimeHelper::updateLocalDate($date);
         }
 
-        $dateTime = isset($time) ? $date. " ". $time : $date;
-        $data = LocaltimeHelper::updateLocaltime($dateTime);
+        if($time){
+            LocaltimeHelper::updateLocaltime($time);
+        }
+
         return $this->json([
-            'message' => 'Local time has been updated.',
+            'message' => 'Local datetime has been updated.',
             'status' => true,
-            'data' => $data
+            'data' => LocaltimeHelper::getLocalDateTime()
         ]);
 
     }
