@@ -18,9 +18,12 @@ services:
     autowire: true      # Automatically injects dependencies in your services.
     autoconfigure: true
     public: true
+#    bind:
+#      $apiPass: '%fixture.command%'
     calls:
       - method: setContainer
-        arguments: [ '@service_container' ]
+        arguments: [ '@service_container']
+
 
   Geeks\Pangolin\Controller\OutboxController:
     autowire: true      # Automatically injects dependencies in your services.
@@ -64,3 +67,5 @@ services:
     tags:
       - { name: 'doctrine.repository_service' }
 
+#parameters:
+#  fixture.command: '%env(FIXTURE_COMMAND)%'
