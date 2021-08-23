@@ -104,10 +104,10 @@ class DatabaseActivitySubscriber implements EventSubscriber
             foreach ($params as $key => $param) {
                 $typeData =  $types[$key];
 
-                if ($typeData === 'ulid') {
-                    $typeData = 'string';
-                    $param = $param->__toString();
-                }
+//                if ($typeData === 'ulid') {
+//                    $typeData = 'string';
+//                    $param = $param->__toString();
+//                }
 
                 $type =  Type::getType($typeData);
                 $value = $type->convertToDatabaseValue($param, $databaseType);
