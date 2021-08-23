@@ -48,7 +48,7 @@ pangolin_bundle:
 
 ## 1 )GET /cmd/db-restart
 ### This api drops and recreates the current the database and runs all migrations and fixtures.
-Note : Make sure your database name contains "*.temp" at the end.Otherwise, you will get error.
+
 
 Response Examples :
 ```json
