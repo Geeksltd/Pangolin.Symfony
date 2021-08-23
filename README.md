@@ -38,7 +38,11 @@ pangolin_bundle:
 ```code
  {% include '@Pangolin/debug/debug.html.twig' %}
 ```
-# -----------------------------------------------------------
+## -----------------------------------------------------------
+
+## ! Important note : _Make sure to create a database that ends with `.temp` . it is a must in this package.Otherwise, following api won't work_
+## -----------------------------------------------------------
+
 
 # Available apis 
 
