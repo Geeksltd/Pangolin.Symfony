@@ -7,12 +7,12 @@ interface IEmailTemplate
 {
 
     public function getBody();
-    public function setBody();
+    public function setBody( $body);
     public function getKey();
-    public function setKey();
+    public function setKey( $key);
     public function getMandatoryPlaceholders();
-    public function setMandatoryPlaceholders();
+    public function setMandatoryPlaceholders( $mandatoryPlaceholders);
     public function getSubject();
-    public function setSubject();
+    public function setSubject( $subject);
     
 }
