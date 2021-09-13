@@ -7,6 +7,6 @@ namespace Geeks\Pangolin\Bridge;
 
 interface UpdateLogBridge
 {
-    public function getId();
+    public function getId(): string;
     public function setId($id): void;
 }
