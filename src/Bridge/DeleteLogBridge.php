@@ -3,10 +3,10 @@
 
 namespace Geeks\Pangolin\Bridge;
 
-use Symfony\Component\Uid\Ulid;
+use Doctrine\DBAL\Types\GuidType;
 
 interface DeleteLogBridge
 {
-    public function getId(): Ulid;
+    public function getId(): GuidType;
     public function setId($id): void;
 }
