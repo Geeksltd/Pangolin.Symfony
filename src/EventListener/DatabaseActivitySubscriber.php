@@ -32,11 +32,11 @@ class DatabaseActivitySubscriber implements EventSubscriber
         '/cmd/db-restart'
     ];
 
-    public function __construct(SerializerInterface $serializer, DebugStack $logger,RequestStack $request)
+    public function __construct(SerializerInterface $serializer, DebugStack $logger, $container)
     {
         $this->serializer = $serializer;
         $this->logger = $logger;
-        $masterRequest = ($request->getMasterRequest());
+        $masterRequest = ($container->get("request_stack")->getMasterRequest());
         $this->currentPath  = $masterRequest->getRequestUri();
 
     }
