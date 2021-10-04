@@ -54,7 +54,7 @@ class DatabaseActivitySubscriber implements EventSubscriber
     // to both the entity object of the event and the entity manager itself
     public function postPersist(LifecycleEventArgs $args): void
     {
-        if(!$this->checkBlacklistRoutes()) return;
+        if($this->checkBlacklistRoutes()) return;
 
         $entity = $args->getObject();
         // if this subscriber only applies to certain entity types,
@@ -87,7 +87,7 @@ class DatabaseActivitySubscriber implements EventSubscriber
 
     public function postRemove(LifecycleEventArgs $args): void
     {
-        if(!$this->checkBlacklistRoutes()) return;
+        if($this->checkBlacklistRoutes()) return;
         $entity = $args->getObject();
         // if this subscriber only applies to certain entity types,
         // add some code to check the entity type as early as possible
@@ -119,7 +119,7 @@ class DatabaseActivitySubscriber implements EventSubscriber
 
     public function postUpdate(LifecycleEventArgs $args): void
     {
-        if(!$this->checkBlacklistRoutes()) return;
+        if($this->checkBlacklistRoutes()) return;
         $entity = $args->getObject();
         // if this subscriber only applies to certain entity types,
         // add some code to check the entity type as early as possible
@@ -151,6 +151,6 @@ class DatabaseActivitySubscriber implements EventSubscriber
 
     protected function checkBlacklistRoutes()
     {
-        if(in_array($this->currentPath, $this->blackRoutes)) return false;
+        return (in_array($this->currentPath, $this->blackRoutes));
     }
 }
