@@ -36,7 +36,7 @@ class DatabaseActivitySubscriber implements EventSubscriber
     {
         $this->serializer = $serializer;
         $this->logger = $logger;
-        $this->currentPath  = $_SERVER['REQUEST_URI'];
+        $this->currentPath  = $_SERVER['REQUEST_URI'] ?? "/";
 
     }
     // this method can only return the event names; you cannot define a
