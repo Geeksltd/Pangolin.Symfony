@@ -12,6 +12,7 @@ use Doctrine\DBAL\Logging\DebugStack;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Bridge\Doctrine\Logger\DbalLogger;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class DatabaseActivitySubscriber implements EventSubscriber
@@ -25,10 +26,19 @@ class DatabaseActivitySubscriber implements EventSubscriber
      */
     private $logger;
 
-    public function __construct(SerializerInterface $serializer, DebugStack $logger)
+    private string $currentPath;
+
+    private $blackRoutes = [
+        '/cmd/db-restart'
+    ];
+
+    public function __construct(SerializerInterface $serializer, DebugStack $logger,RequestStack $request)
     {
         $this->serializer = $serializer;
         $this->logger = $logger;
+        $masterRequest = ($request->getMasterRequest());
+        $this->currentPath  = $masterRequest->getRequestUri();
+
     }
     // this method can only return the event names; you cannot define a
     // custom method name to execute when each event triggers
@@ -45,6 +55,8 @@ class DatabaseActivitySubscriber implements EventSubscriber
     // to both the entity object of the event and the entity manager itself
     public function postPersist(LifecycleEventArgs $args): void
     {
+        if(!$this->checkBlacklistRoutes()) return;
+
         $entity = $args->getObject();
         // if this subscriber only applies to certain entity types,
         // add some code to check the entity type as early as possible
@@ -76,6 +88,7 @@ class DatabaseActivitySubscriber implements EventSubscriber
 
     public function postRemove(LifecycleEventArgs $args): void
     {
+        if(!$this->checkBlacklistRoutes()) return;
         $entity = $args->getObject();
         // if this subscriber only applies to certain entity types,
         // add some code to check the entity type as early as possible
@@ -107,6 +120,7 @@ class DatabaseActivitySubscriber implements EventSubscriber
 
     public function postUpdate(LifecycleEventArgs $args): void
     {
+        if(!$this->checkBlacklistRoutes()) return;
         $entity = $args->getObject();
         // if this subscriber only applies to certain entity types,
         // add some code to check the entity type as early as possible
@@ -134,5 +148,10 @@ class DatabaseActivitySubscriber implements EventSubscriber
             $args->getObjectManager()->persist($log);
             $args->getObjectManager()->flush();
         }
+    }
+
+    protected function checkBlacklistRoutes()
+    {
+        if(in_array($this->currentPath, $this->blackRoutes)) return false;
     }
 }
