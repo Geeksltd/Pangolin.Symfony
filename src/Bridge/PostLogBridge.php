@@ -7,7 +7,6 @@ namespace Geeks\Pangolin\Bridge;
 
 interface PostLogBridge
 {
-    public function getId(): string;
-
+    public function getId(): ?string;
     public function setId($id): void;
 }

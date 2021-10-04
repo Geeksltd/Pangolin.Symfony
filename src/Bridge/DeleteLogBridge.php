@@ -7,7 +7,6 @@ namespace Geeks\Pangolin\Bridge;
 
 interface DeleteLogBridge
 {
-    public function getId(): string;
-
+    public function getId(): ?string;
     public function setId($id): void;
 }
