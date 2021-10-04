@@ -32,12 +32,11 @@ class DatabaseActivitySubscriber implements EventSubscriber
         '/cmd/db-restart'
     ];
 
-    public function __construct(SerializerInterface $serializer, DebugStack $logger, $container)
+    public function __construct(SerializerInterface $serializer, DebugStack $logger)
     {
         $this->serializer = $serializer;
         $this->logger = $logger;
-        $masterRequest = ($container->get("request_stack")->getMasterRequest());
-        $this->currentPath  = $masterRequest->getRequestUri();
+        $this->currentPath  = $_SERVER['REQUEST_URI'];
 
     }
     // this method can only return the event names; you cannot define a

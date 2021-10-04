@@ -51,7 +51,6 @@ services:
     arguments:
       $serializer: '@serializer'
       $logger: '@doctrine.dbal.logger.profiling.default'
-      $container: '@service_container'
     tags:
       - { name: 'doctrine.event_subscriber' }
 
