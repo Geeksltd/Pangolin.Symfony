@@ -29,7 +29,7 @@ class DatabaseActivitySubscriber implements EventSubscriber
     private string $currentPath;
 
     private $blackRoutes = [
-        '/cmd/db-restart'
+        '/cmd/db-restart' , '/cmd/db-restart?runner=Sanity'
     ];
 
     public function __construct(SerializerInterface $serializer, DebugStack $logger)
