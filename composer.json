@@ -24,7 +24,7 @@
         "nelmio/cors-bundle": "^2.1",
         "symfony/asset": "^5.2",
         "symfony/expression-language": "^5.2",
-        "composer/package-versions-deprecated": "1.11.99.4",
+        "composer/package-versions-deprecated": "1.11.99.2",
         "doctrine/doctrine-bundle": "^2.4",
         "symfony/proxy-manager-bridge": "^5.2",
         "symfony/security-bundle": "^5.2",
