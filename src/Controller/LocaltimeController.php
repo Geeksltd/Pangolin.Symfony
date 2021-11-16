@@ -18,15 +18,15 @@ class LocaltimeController extends AbstractController
         $time = $request->query->get('time');
 
 
-        if(empty($date) and empty($time)){
+        if(empty(trim($date)) and empty(trim($time))){
             LocaltimeHelper::resetLocalDateTime();
         }
 
-        if(!empty($date)){
+        if(!empty(trim($date))){
            LocaltimeHelper::updateLocalDate($date);
         }
 
-        if(!empty($time)){
+        if(!empty(trim($time))){
             LocaltimeHelper::updateLocaltime($time);
         }
 

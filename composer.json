@@ -39,5 +39,5 @@
         "symfony/cache": "^5.2",
         "ext-apcu": "*"
     },
-    "version": "1.39"
+    "version": "1.40"
 }
