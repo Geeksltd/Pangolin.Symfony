@@ -29,9 +29,9 @@ class LocaltimeHelper
         $localDate = $cache->getItem('default_local_date')->get();
 
         if ($localTime || $localDate) {
-            return self::generateDateTimeString($localDate, $localTime);
+            return  \DateTime::createFromFormat("d/m/Y H:i:s", self::generateDateTimeString($localDate, $localTime));
         } else {
-            return date("d/m/Y H:i:s");
+            return new \DateTime();
         }
 
     }
