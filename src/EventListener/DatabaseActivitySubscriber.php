@@ -28,15 +28,18 @@ class DatabaseActivitySubscriber implements EventSubscriber
 
     private string $currentPath;
 
+    private $env;
+
     private $blackRoutes = [
         '/cmd/db-restart' , '/cmd/db-restart?runner=Sanity'
     ];
 
-    public function __construct(SerializerInterface $serializer, DebugStack $logger)
+    public function __construct(SerializerInterface $serializer, DebugStack $logger, $env)
     {
         $this->serializer = $serializer;
         $this->logger = $logger;
         $this->currentPath  = $_SERVER['REQUEST_URI'] ?? "/";
+        $this->env = $env;
 
     }
     // this method can only return the event names; you cannot define a
@@ -54,6 +57,7 @@ class DatabaseActivitySubscriber implements EventSubscriber
     // to both the entity object of the event and the entity manager itself
     public function postPersist(LifecycleEventArgs $args): void
     {
+        if(!$this->isDevelopment()) return;
         if($this->checkBlacklistRoutes()) return;
 
         $entity = $args->getObject();
@@ -87,6 +91,7 @@ class DatabaseActivitySubscriber implements EventSubscriber
 
     public function postRemove(LifecycleEventArgs $args): void
     {
+        if(!$this->isDevelopment()) return;
         if($this->checkBlacklistRoutes()) return;
         $entity = $args->getObject();
         // if this subscriber only applies to certain entity types,
@@ -119,6 +124,7 @@ class DatabaseActivitySubscriber implements EventSubscriber
 
     public function postUpdate(LifecycleEventArgs $args): void
     {
+        if(!$this->isDevelopment()) return;
         if($this->checkBlacklistRoutes()) return;
         $entity = $args->getObject();
         // if this subscriber only applies to certain entity types,
@@ -129,7 +135,7 @@ class DatabaseActivitySubscriber implements EventSubscriber
             $log->setTypeName(get_class($entity));
             $log->setCreatedAt(new \DateTimeImmutable());
             $log->setActionName('update');
-            $params = end($this->logger->queries)['params'];
+            $params = end($this->logger->queries)['params'] ?? [];
             $sql = end($this->logger->queries)['sql'];
             $types = end($this->logger->queries)['types'];
             $databaseType = $args->getObjectManager()->getConnection()->getDatabasePlatform();
@@ -152,5 +158,10 @@ class DatabaseActivitySubscriber implements EventSubscriber
     protected function checkBlacklistRoutes()
     {
         return (in_array($this->currentPath, $this->blackRoutes));
+    }
+
+    protected function isDevelopment()
+    {
+        return ($this->env == '"dev"');
     }
 }
