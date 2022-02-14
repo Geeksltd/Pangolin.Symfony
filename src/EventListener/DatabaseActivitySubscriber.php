@@ -74,14 +74,16 @@ class DatabaseActivitySubscriber implements EventSubscriber
             $types = end($this->logger->queries)['types'];
             $databaseType = $args->getObjectManager()->getConnection()->getDatabasePlatform();
             foreach ($params as $key => $param) {
-                $typeData = $types[$key];
-                if ($typeData === 'ulid') {
-                    $typeData = 'string';
-                    $param = (string)$param;
+                if(isset($types[$key])) {
+                    $typeData = $types[$key];
+                    if ($typeData === 'ulid') {
+                        $typeData = 'string';
+                        $param = (string)$param;
+                    }
+                    $type = Type::getType($typeData);
+                    $value = $type->convertToDatabaseValue($param, $databaseType);
+                    $sql = join(var_export($value, true), explode('?', $sql, 2));
                 }
-                $type = Type::getType($typeData);
-                $value = $type->convertToDatabaseValue($param, $databaseType);
-                $sql = join(var_export($value, true), explode('?', $sql, 2));
             }
             $log->setDbalQuery($sql);
             $args->getObjectManager()->persist($log);
@@ -107,14 +109,16 @@ class DatabaseActivitySubscriber implements EventSubscriber
             $types = end($this->logger->queries)['types'];
             $databaseType = $args->getObjectManager()->getConnection()->getDatabasePlatform();
             foreach ($params as $key => $param) {
-                $typeData = $types[$key];
-                if ($typeData === 'ulid') {
-                    $typeData = 'string';
-                    $param = (string)$param;
+                if(isset($types[$key])) {
+                    $typeData = $types[$key];
+                    if ($typeData === 'ulid') {
+                        $typeData = 'string';
+                        $param = (string)$param;
+                    }
+                    $type = Type::getType($typeData);
+                    $value = $type->convertToDatabaseValue($param, $databaseType);
+                    $sql = join(var_export($value, true), explode('?', $sql, 2));
                 }
-                $type = Type::getType($typeData);
-                $value = $type->convertToDatabaseValue($param, $databaseType);
-                $sql = join(var_export($value, true), explode('?', $sql, 2));
             }
             $log->setDbalQuery($sql);
             $args->getObjectManager()->persist($log);
@@ -140,14 +144,16 @@ class DatabaseActivitySubscriber implements EventSubscriber
             $types = end($this->logger->queries)['types'];
             $databaseType = $args->getObjectManager()->getConnection()->getDatabasePlatform();
             foreach ($params as $key => $param) {
-                $typeData = $types[$key];
-                if ($typeData === 'ulid') {
-                    $typeData = 'string';
-                    $param = (string)$param;
+                if(isset($types[$key])) {
+                    $typeData = $types[$key];
+                    if ($typeData === 'ulid') {
+                        $typeData = 'string';
+                        $param = (string)$param;
+                    }
+                    $type = Type::getType($typeData);
+                    $value = $type->convertToDatabaseValue($param, $databaseType);
+                    $sql = join(var_export($value, true), explode('?', $sql, 2));
                 }
-                $type = Type::getType($typeData);
-                $value = $type->convertToDatabaseValue($param, $databaseType);
-                $sql = join(var_export($value, true), explode('?', $sql, 2));
             }
             $log->setDbalQuery($sql);
             $args->getObjectManager()->persist($log);
