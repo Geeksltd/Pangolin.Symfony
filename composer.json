@@ -4,8 +4,8 @@
     "type": "symfony-bundle",
     "authors": [
         {
-            "name": "Vahid Mahdiun",
-            "email": "vahid.mahdiun@geeks.ltd.uk"
+            "name": "Geeks Ltd.",
+            "email": "info@geeks.ltd.uk"
         }
     ],
 	"autoload": {
@@ -14,30 +14,41 @@
 		  }
 	},
     "require": {
-      "php": ">=7.4",
-      "symfony/framework-bundle": "^5.2",
+      "php": ">=8.1",
+      "symfony/framework-bundle": "^6.1",
       "doctrine/doctrine-migrations-bundle" : "^3.1",
       "doctrine/orm": "^2.9",
       "doctrine/doctrine-fixtures-bundle": "^3.4",
-        "symfony/flex": "^1.13",
+        "symfony/flex": "^2",
         "api-platform/core": "^2.6",
         "nelmio/cors-bundle": "^2.1",
-        "symfony/asset": "^5.2",
-        "symfony/expression-language": "^5.2",
+        "symfony/asset": "^6.1",
+        "symfony/expression-language": "^6.1",
         "composer/package-versions-deprecated": "1.11.99.2",
         "doctrine/doctrine-bundle": "^2.4",
-        "symfony/proxy-manager-bridge": "^5.2",
-        "symfony/security-bundle": "^5.2",
+        "symfony/proxy-manager-bridge": "^6.1",
+        "symfony/security-bundle": "^6.1",
         "doctrine/annotations": "^1.0",
-        "phpdocumentor/reflection-docblock": "^5.2",
-        "symfony/property-access": "^5.2",
-        "symfony/property-info": "^5.2",
-        "symfony/serializer": "^5.2",
-        "symfony/twig-bundle": "^5.2",
-        "symfony/validator": "^5.2",
-        "symfony/uid": "^5.2",
-        "symfony/cache": "^5.2",
+        "phpdocumentor/reflection-docblock": "^5.3",
+        "symfony/property-access": "^6.1",
+        "symfony/property-info": "^6.1",
+        "symfony/serializer": "^6.1",
+        "symfony/twig-bundle": "^6.1",
+        "symfony/validator": "^6.1",
+        "symfony/uid": "^6.1",
+        "symfony/cache": "^6.1",
         "ext-apcu": "*"
     },
-    "version": "1.42"
+    "version": "2.0",
+    "config": {
+        "allow-plugins": {
+            "symfony/flex": true
+        }
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        }
+    }
 }
