@@ -24,7 +24,7 @@ class ClearLogs implements EventSubscriberInterface
         $this->manager = $manager;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::VIEW => ['clearLogs', EventPriorities::POST_SERIALIZE],

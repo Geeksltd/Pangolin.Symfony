@@ -76,7 +76,7 @@ class DatabaseActivitySubscriber implements EventSubscriber
             foreach ($params as $key => $param) {
                 if(isset($types[$key])) {
                     $typeData = $types[$key];
-                    if ($typeData === 'ulid') {
+                    if (in_array($typeData, ['ulid', 'uuid', 'uid', 'Uid', 'UUid', 'Uuid'])) {
                         $typeData = 'string';
                         $param = (string)$param;
                     }
@@ -111,7 +111,7 @@ class DatabaseActivitySubscriber implements EventSubscriber
             foreach ($params as $key => $param) {
                 if(isset($types[$key])) {
                     $typeData = $types[$key];
-                    if ($typeData === 'ulid') {
+                    if (in_array($typeData, ['ulid', 'uuid', 'uid', 'Uid', 'UUid', 'Uuid'])) {
                         $typeData = 'string';
                         $param = (string)$param;
                     }
@@ -146,7 +146,7 @@ class DatabaseActivitySubscriber implements EventSubscriber
             foreach ($params as $key => $param) {
                 if(isset($types[$key])) {
                     $typeData = $types[$key];
-                    if ($typeData === 'ulid') {
+                    if (in_array($typeData, ['ulid', 'uuid', 'uid', 'Uid', 'UUid', 'Uuid'])) {
                         $typeData = 'string';
                         $param = (string)$param;
                     }
