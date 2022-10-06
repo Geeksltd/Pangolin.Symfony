@@ -20,7 +20,7 @@
       "doctrine/orm": "^2.9",
       "doctrine/doctrine-fixtures-bundle": "^3.4",
         "symfony/flex": "^2",
-        "api-platform/core": "^2.6",
+        "api-platform/core": "^3.0",
         "nelmio/cors-bundle": "^2.1",
         "symfony/asset": "^6.1",
         "symfony/expression-language": "^6.1",
@@ -39,7 +39,7 @@
         "symfony/cache": "^6.1",
         "ext-apcu": "*"
     },
-    "version": "2.4",
+    "version": "2.5",
     "config": {
         "allow-plugins": {
             "symfony/flex": true
