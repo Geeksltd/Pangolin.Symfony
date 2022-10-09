@@ -8,12 +8,18 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 final class ResetDatabaseController extends AbstractController
 {
     public function __invoke(KernelInterface $kernel)
     {
         return $this->index($kernel);
+    }
+
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
     }
 
     protected $dropCommand = [
@@ -41,7 +47,7 @@ final class ResetDatabaseController extends AbstractController
     protected function index(KernelInterface $kernel): Response
     {
 
-        $databaseName = $this->getDoctrine()->getConnection()->getDatabase();
+        $databaseName = $this->doctrine->getConnection()->getDatabase();
 
         if(!$this->hasTempSuffix($databaseName)){
             return $this->response([

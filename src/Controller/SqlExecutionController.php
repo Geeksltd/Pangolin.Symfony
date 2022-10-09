@@ -5,6 +5,7 @@ namespace Geeks\Pangolin\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Doctrine\Persistence\ManagerRegistry;
 
 class SqlExecutionController extends AbstractController
 {
@@ -13,6 +14,10 @@ class SqlExecutionController extends AbstractController
         return $this->index($request);
     }
 
+    private $doctrine;
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+    }
 
     protected function index($request): Response
     {
@@ -43,7 +48,7 @@ class SqlExecutionController extends AbstractController
 
     protected function executeSqlQuery($sql)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $stmt = $em->getConnection()->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
