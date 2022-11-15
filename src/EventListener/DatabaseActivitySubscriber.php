@@ -31,14 +31,14 @@ class DatabaseActivitySubscriber implements EventSubscriber
     private $env;
 
     private $blackRoutes = [
-        '/cmd/db-restart' , '/cmd/db-restart?runner=Sanity'
+        '/cmd/db-restart', '/cmd/db-restart?runner=Sanity'
     ];
 
     public function __construct(SerializerInterface $serializer, DebugStack $logger, $env)
     {
         $this->serializer = $serializer;
         $this->logger = $logger;
-        $this->currentPath  = $_SERVER['REQUEST_URI'] ?? "/";
+        $this->currentPath = $_SERVER['REQUEST_URI'] ?? "/";
         $this->env = $env;
 
     }
@@ -57,107 +57,46 @@ class DatabaseActivitySubscriber implements EventSubscriber
     // to both the entity object of the event and the entity manager itself
     public function postPersist(LifecycleEventArgs $args): void
     {
-        if(!$this->isDevelopment()) return;
-        if($this->checkBlacklistRoutes()) return;
+        if (!$this->isDevelopment()) return;
+        if ($this->checkBlacklistRoutes()) return;
 
         $entity = $args->getObject();
         // if this subscriber only applies to certain entity types,
         // add some code to check the entity type as early as possible
         if ($entity instanceof PostLogBridge) {
-            $log = new Log();
-            $log->setPayload($this->serializer->serialize($entity, 'json', ["groups" => "log_read"]));
-            $log->setTypeName(get_class($entity));
-            $log->setCreatedAt(new \DateTimeImmutable());
-            $log->setActionName('post');
-            $params = end($this->logger->queries)['params'];
-            $sql = end($this->logger->queries)['sql'];
-            $types = end($this->logger->queries)['types'];
-            $databaseType = $args->getObjectManager()->getConnection()->getDatabasePlatform();
-            foreach ($params as $key => $param) {
-                if(isset($types[$key])) {
-                    $typeData = $types[$key];
-                    if (in_array($typeData, ['ulid', 'uuid', 'uid', 'Uid', 'UUid', 'Uuid'])) {
-                        $typeData = 'string';
-                        $param = (string)$param;
-                    }
-                    $type = Type::getType($typeData);
-                    $value = $type->convertToDatabaseValue($param, $databaseType);
-                    $sql = join(var_export($value, true), explode('?', $sql, 2));
-                }
-            }
-            $log->setDbalQuery($sql);
-            $args->getObjectManager()->persist($log);
-            $args->getObjectManager()->flush();
+            $queryEntity = count($this->logger->queries);
+            $this->insertLog($args, $entity, 'post', $this->logger->queries[$queryEntity]);
         }
     }
 
     public function postRemove(LifecycleEventArgs $args): void
     {
-        if(!$this->isDevelopment()) return;
-        if($this->checkBlacklistRoutes()) return;
+        if (!$this->isDevelopment()) return;
+        if ($this->checkBlacklistRoutes()) return;
         $entity = $args->getObject();
         // if this subscriber only applies to certain entity types,
         // add some code to check the entity type as early as possible
         if ($entity instanceof DeleteLogBridge) {
-            $log = new Log();
-            $log->setPayload($this->serializer->serialize($entity, 'json', ["groups" => "log_read"]));
-            $log->setTypeName(get_class($entity));
-            $log->setCreatedAt(new \DateTimeImmutable());
-            $log->setActionName('remove');
-            $params = end($this->logger->queries)['params'];
-            $sql = end($this->logger->queries)['sql'];
-            $types = end($this->logger->queries)['types'];
-            $databaseType = $args->getObjectManager()->getConnection()->getDatabasePlatform();
-            foreach ($params as $key => $param) {
-                if(isset($types[$key])) {
-                    $typeData = $types[$key];
-                    if (in_array($typeData, ['ulid', 'uuid', 'uid', 'Uid', 'UUid', 'Uuid'])) {
-                        $typeData = 'string';
-                        $param = (string)$param;
-                    }
-                    $type = Type::getType($typeData);
-                    $value = $type->convertToDatabaseValue($param, $databaseType);
-                    $sql = join(var_export($value, true), explode('?', $sql, 2));
-                }
-            }
-            $log->setDbalQuery($sql);
-            $args->getObjectManager()->persist($log);
-            $args->getObjectManager()->flush();
+            $queryEntity = count($this->logger->queries);
+            $this->insertLog($args, $entity, 'remove', $this->logger->queries[$queryEntity]);
         }
     }
 
     public function postUpdate(LifecycleEventArgs $args): void
     {
-        if(!$this->isDevelopment()) return;
-        if($this->checkBlacklistRoutes()) return;
+        if (!$this->isDevelopment()) return;
+        if ($this->checkBlacklistRoutes()) return;
         $entity = $args->getObject();
         // if this subscriber only applies to certain entity types,
         // add some code to check the entity type as early as possible
         if ($entity instanceof UpdateLogBridge) {
-            $log = new Log();
-            $log->setPayload($this->serializer->serialize($entity, 'json', ["groups" => "log_read"]));
-            $log->setTypeName(get_class($entity));
-            $log->setCreatedAt(new \DateTimeImmutable());
-            $log->setActionName('update');
-            $params = end($this->logger->queries)['params'] ?? [];
-            $sql = end($this->logger->queries)['sql'];
-            $types = end($this->logger->queries)['types'];
-            $databaseType = $args->getObjectManager()->getConnection()->getDatabasePlatform();
-            foreach ($params as $key => $param) {
-                if(isset($types[$key])) {
-                    $typeData = $types[$key];
-                    if (in_array($typeData, ['ulid', 'uuid', 'uid', 'Uid', 'UUid', 'Uuid'])) {
-                        $typeData = 'string';
-                        $param = (string)$param;
-                    }
-                    $type = Type::getType($typeData);
-                    $value = $type->convertToDatabaseValue($param, $databaseType);
-                    $sql = join(var_export($value, true), explode('?', $sql, 2));
-                }
+            $queryEntity = count($this->logger->queries) - 1;
+            $queryAudit = count($this->logger->queries);
+            $this->insertLog($args, $entity, 'update', $this->logger->queries[$queryEntity]);
+            if(strpos($this->logger->queries[$queryAudit]['sql'], 'audit') > -1) {
+                $this->insertLog($args, $entity, 'post', $this->logger->queries[$queryAudit]);
             }
-            $log->setDbalQuery($sql);
-            $args->getObjectManager()->persist($log);
-            $args->getObjectManager()->flush();
+
         }
     }
 
@@ -169,5 +108,33 @@ class DatabaseActivitySubscriber implements EventSubscriber
     protected function isDevelopment()
     {
         return ($this->env == '"dev"');
+    }
+
+    private function insertLog($args, $entity, $type, $query)
+    {
+        $log = new Log();
+        $log->setPayload($this->serializer->serialize($entity, 'json', ["groups" => "log_read"]));
+        $log->setTypeName(get_class($entity));
+        $log->setCreatedAt(new \DateTimeImmutable());
+        $log->setActionName($type);
+        $params = $query['params'] ?? [];
+        $sql = $query['sql'];
+        $types = $query['types'];
+        $databaseType = $args->getObjectManager()->getConnection()->getDatabasePlatform();
+        foreach ($params as $key => $param) {
+            if (isset($types[$key])) {
+                $typeData = $types[$key];
+                if (strpos($typeData, 'uid') > -1) {
+                    $typeData = 'string';
+                    $param = (string)$param;
+                }
+                $type = Type::getType($typeData);
+                $value = $type->convertToDatabaseValue($param, $databaseType);
+                $sql = join(var_export($value, true), explode('?', $sql, 2));
+            }
+        }
+        $log->setDbalQuery($sql);
+        $args->getObjectManager()->persist($log);
+        $args->getObjectManager()->flush();
     }
 }
