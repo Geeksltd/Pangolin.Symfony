@@ -39,7 +39,7 @@
         "symfony/cache": "^6.1",
         "ext-apcu": "*"
     },
-    "version": "2.10",
+    "version": "2.11",
     "config": {
         "allow-plugins": {
             "symfony/flex": true
