@@ -31,5 +31,5 @@ class LogController extends AbstractController
 
         return ['data' => $resultLog];
     }
-    
+
 }

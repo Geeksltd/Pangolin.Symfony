@@ -16,12 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class LogInput
 {
-
-    /**
-     * @SerializedName(serializedName="LogInput.name")
-     * @Groups({"xml"})
-     * @ApiProperty(attributes={"LogInput.name"})
-     */
+    
     private $name;
 
     /**

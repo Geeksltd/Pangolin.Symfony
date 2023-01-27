@@ -130,7 +130,13 @@ class DatabaseActivitySubscriber implements EventSubscriber
                 }
                 $type = Type::getType($typeData);
                 $value = $type->convertToDatabaseValue($param, $databaseType);
-                $sql = join(var_export($value, true), explode('?', $sql, 2));
+
+                if($value == '') {
+                    $exportVal = 'NULL';
+                } else {
+                    $exportVal = var_export($value, true);
+                }
+                $sql = join($exportVal, explode('?', $sql, 2));
             }
         }
         $log->setDbalQuery($sql);
