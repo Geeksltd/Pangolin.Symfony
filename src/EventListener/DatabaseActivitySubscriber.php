@@ -29,6 +29,7 @@ class DatabaseActivitySubscriber implements EventSubscriber
     private string $currentPath;
 
     private $env;
+    private $runQueries = [];
 
     private $blackRoutes = [
         '/cmd/db-restart', '/cmd/db-restart?runner=Sanity'
@@ -47,39 +48,8 @@ class DatabaseActivitySubscriber implements EventSubscriber
     public function getSubscribedEvents(): array
     {
         return [
-            Events::postPersist,
-            Events::postRemove,
             Events::postUpdate,
         ];
-    }
-    // callback methods must be called exactly like the events they listen to;
-    // they receive an argument of type LifecycleEventArgs, which gives you access
-    // to both the entity object of the event and the entity manager itself
-    public function postPersist(LifecycleEventArgs $args): void
-    {
-        if (!$this->isDevelopment()) return;
-        if ($this->checkBlacklistRoutes()) return;
-
-        $entity = $args->getObject();
-        // if this subscriber only applies to certain entity types,
-        // add some code to check the entity type as early as possible
-        if ($entity instanceof PostLogBridge) {
-            $queryEntity = count($this->logger->queries);
-            $this->insertLog($args, $entity, 'post', $this->logger->queries[$queryEntity]);
-        }
-    }
-
-    public function postRemove(LifecycleEventArgs $args): void
-    {
-        if (!$this->isDevelopment()) return;
-        if ($this->checkBlacklistRoutes()) return;
-        $entity = $args->getObject();
-        // if this subscriber only applies to certain entity types,
-        // add some code to check the entity type as early as possible
-        if ($entity instanceof DeleteLogBridge) {
-            $queryEntity = count($this->logger->queries);
-            $this->insertLog($args, $entity, 'remove', $this->logger->queries[$queryEntity]);
-        }
     }
 
     public function postUpdate(LifecycleEventArgs $args): void
@@ -87,16 +57,30 @@ class DatabaseActivitySubscriber implements EventSubscriber
         if (!$this->isDevelopment()) return;
         if ($this->checkBlacklistRoutes()) return;
         $entity = $args->getObject();
-        // if this subscriber only applies to certain entity types,
-        // add some code to check the entity type as early as possible
-        if ($entity instanceof UpdateLogBridge) {
-            $queryEntity = count($this->logger->queries) - 1;
-            $queryAudit = count($this->logger->queries);
-            $this->insertLog($args, $entity, 'update', $this->logger->queries[$queryEntity]);
-            if(strpos($this->logger->queries[$queryAudit]['sql'], 'audit') > -1) {
-                $this->insertLog($args, $entity, 'post', $this->logger->queries[$queryAudit]);
-            }
 
+        if ($entity instanceof UpdateLogBridge) {
+            $queryEntity = count($this->logger->queries);
+            $startTransactionKey = array_search('"START TRANSACTION"', array_column($this->logger->queries, 'sql')) + 2;
+            if($startTransactionKey && $startTransactionKey > 1) {
+                $em = $args->getObjectManager();
+                for ($i = $startTransactionKey; $i <= $queryEntity; $i++) {
+                    $query = $this->logger->queries[$i];
+                    $sql = $this->getDbalQuery($query, $args);
+                    if(!str_contains($sql, 'INTO log') && !str_contains($sql, 'SELECT t0')) {
+                        if (!$em->getRepository(Log::class)->findOneBy(['dbalQuery' => $sql])) {
+                            if(str_contains($sql, 'INSERT INTO')) {
+                                $this->insertLog($args, $entity, 'post', $query);
+                            }
+                            else if(str_contains($sql, 'UPDATE')) {
+                                $this->insertLog($args, $entity, 'update', $query);
+                            }
+                            else if(str_contains($sql, 'DELETE')) {
+                                $this->insertLog($args, $entity, 'remove', $query);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -117,9 +101,15 @@ class DatabaseActivitySubscriber implements EventSubscriber
         $log->setTypeName(get_class($entity));
         $log->setCreatedAt(new \DateTimeImmutable());
         $log->setActionName($type);
-        $params = $query['params'] ?? [];
+        $sql = $this->getDbalQuery($query, $args);
+        $log->setDbalQuery($sql);
+        $args->getObjectManager()->persist($log);
+        $args->getObjectManager()->flush();
+    }
+    private function getDbalQuery($query, $args) {
         $sql = $query['sql'];
         $types = $query['types'];
+        $params = $query['params'] ?? [];
         $databaseType = $args->getObjectManager()->getConnection()->getDatabasePlatform();
         foreach ($params as $key => $param) {
             if (isset($types[$key])) {
@@ -139,8 +129,6 @@ class DatabaseActivitySubscriber implements EventSubscriber
                 $sql = join($exportVal, explode('?', $sql, 2));
             }
         }
-        $log->setDbalQuery($sql);
-        $args->getObjectManager()->persist($log);
-        $args->getObjectManager()->flush();
+        return $sql;
     }
 }
