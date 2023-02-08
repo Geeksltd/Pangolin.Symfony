@@ -48,8 +48,74 @@ class DatabaseActivitySubscriber implements EventSubscriber
     public function getSubscribedEvents(): array
     {
         return [
+            Events::postPersist,
             Events::postUpdate,
+            Events::postRemove,
         ];
+    }
+
+    public function postPersist(LifecycleEventArgs $args): void
+    {
+        if (!$this->isDevelopment()) return;
+        if ($this->checkBlacklistRoutes()) return;
+        $entity = $args->getObject();
+
+        if ($entity instanceof UpdateLogBridge) {
+            $queryEntity = count($this->logger->queries);
+            $startTransactionKey = array_search('"START TRANSACTION"', array_column($this->logger->queries, 'sql')) + 2;
+            if($startTransactionKey && $startTransactionKey > 1) {
+                $em = $args->getObjectManager();
+                for ($i = $startTransactionKey; $i <= $queryEntity; $i++) {
+                    $query = $this->logger->queries[$i];
+                    $sql = $this->getDbalQuery($query, $args);
+                    if(!str_contains($sql, 'INTO log') && !str_contains($sql, 'SELECT t0')) {
+                        if (!$em->getRepository(Log::class)->findOneBy(['dbalQuery' => $sql])) {
+                            if(str_contains($sql, 'INSERT INTO')) {
+                                $this->insertLog($args, $entity, 'post', $query);
+                            }
+                            else if(str_contains($sql, 'UPDATE')) {
+                                $this->insertLog($args, $entity, 'update', $query);
+                            }
+                            else if(str_contains($sql, 'DELETE')) {
+                                $this->insertLog($args, $entity, 'remove', $query);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public function postRemove(LifecycleEventArgs $args): void
+    {
+        if (!$this->isDevelopment()) return;
+        if ($this->checkBlacklistRoutes()) return;
+        $entity = $args->getObject();
+
+        if ($entity instanceof UpdateLogBridge) {
+            $queryEntity = count($this->logger->queries);
+            $startTransactionKey = array_search('"START TRANSACTION"', array_column($this->logger->queries, 'sql')) + 2;
+            if($startTransactionKey && $startTransactionKey > 1) {
+                $em = $args->getObjectManager();
+                for ($i = $startTransactionKey; $i <= $queryEntity; $i++) {
+                    $query = $this->logger->queries[$i];
+                    $sql = $this->getDbalQuery($query, $args);
+                    if(!str_contains($sql, 'INTO log') && !str_contains($sql, 'SELECT t0')) {
+                        if (!$em->getRepository(Log::class)->findOneBy(['dbalQuery' => $sql])) {
+                            if(str_contains($sql, 'INSERT INTO')) {
+                                $this->insertLog($args, $entity, 'post', $query);
+                            }
+                            else if(str_contains($sql, 'UPDATE')) {
+                                $this->insertLog($args, $entity, 'update', $query);
+                            }
+                            else if(str_contains($sql, 'DELETE')) {
+                                $this->insertLog($args, $entity, 'remove', $query);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public function postUpdate(LifecycleEventArgs $args): void
@@ -118,9 +184,11 @@ class DatabaseActivitySubscriber implements EventSubscriber
                     $typeData = 'string';
                     $param = (string)$param;
                 }
-                $type = Type::getType($typeData);
-                $value = $type->convertToDatabaseValue($param, $databaseType);
-
+                $value = '';
+                if($typeData != 2) {
+                    $type = Type::getType($typeData);
+                    $value = $type->convertToDatabaseValue($param, $databaseType);
+                }
                 if($value == '') {
                     $exportVal = 'NULL';
                 } else {
