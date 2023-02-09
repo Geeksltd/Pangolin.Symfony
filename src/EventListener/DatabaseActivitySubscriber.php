@@ -3,6 +3,7 @@
 namespace Geeks\Pangolin\EventListener;
 
 use Doctrine\DBAL\Types\Type;
+use Doctrine\ORM\Event\PostFlushEventArgs;
 use Geeks\Pangolin\Bridge\DeleteLogBridge;
 use Geeks\Pangolin\Bridge\PostLogBridge;
 use Geeks\Pangolin\Bridge\UpdateLogBridge;
@@ -59,7 +60,6 @@ class DatabaseActivitySubscriber implements EventSubscriber
         if (!$this->isDevelopment()) return;
         if ($this->checkBlacklistRoutes()) return;
         $entity = $args->getObject();
-
         if ($entity instanceof UpdateLogBridge) {
             $queryEntity = count($this->logger->queries);
             $startTransactionKey = array_search('"START TRANSACTION"', array_column($this->logger->queries, 'sql')) + 2;
@@ -123,7 +123,6 @@ class DatabaseActivitySubscriber implements EventSubscriber
         if (!$this->isDevelopment()) return;
         if ($this->checkBlacklistRoutes()) return;
         $entity = $args->getObject();
-
         if ($entity instanceof UpdateLogBridge) {
             $queryEntity = count($this->logger->queries);
             $startTransactionKey = array_search('"START TRANSACTION"', array_column($this->logger->queries, 'sql')) + 2;
@@ -185,7 +184,7 @@ class DatabaseActivitySubscriber implements EventSubscriber
                     $param = (string)$param;
                 }
                 $value = '';
-                if($typeData != 2) {
+                if(!is_int($typeData)) {
                     $type = Type::getType($typeData);
                     $value = $type->convertToDatabaseValue($param, $databaseType);
                 }
