@@ -56,11 +56,12 @@ final class ResetDatabaseController extends AbstractController
             ], 500);
         }
 
-        if (!$this->dropDatabase($kernel, true)) return $this->lastResponse();
-
-        if (!$this->createDatabase($kernel, true)) return $this->lastResponse();
-
-        if (!$this->runMigration($kernel, true)) return $this->lastResponse();
+        //Don't need to recreate db
+//        if (!$this->dropDatabase($kernel, true)) return $this->lastResponse();
+//
+//        if (!$this->createDatabase($kernel, true)) return $this->lastResponse();
+//
+//        if (!$this->runMigration($kernel, true)) return $this->lastResponse();
 
         if (!$this->runFixture($kernel, true)) return $this->lastResponse();
 
